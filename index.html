@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Telegram WebApp</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .button {
+            background-color: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Моё приложение</h1>
+        <button class="button" onclick="sendData('Кнопка 1')">Кнопка 1</button>
+        <button class="button" onclick="sendData('Кнопка 2')">Кнопка 2</button>
+        <button class="button" onclick="tg.close()">Закрыть</button>
+    </div>
+    
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+
+        function sendData(data) {
+            tg.sendData(data);
+            tg.close();
+        }
+    </script>
+</body>
+</html>
