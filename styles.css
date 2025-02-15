@@ -15,22 +15,33 @@ body {
     padding: 20px;
 }
 
+.manga-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    margin-top: 60px; /* Отступ от поисковой строки */
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .manga-card {
     background: #2a2a2a;
     border-radius: 15px;
     overflow: hidden;
-    width: 300px;
+    width: 100%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease;
 }
 
 .manga-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
 }
 
 .manga-card img {
     width: 100%;
-    height: 400px;
+    height: 250px; /* Уменьшенная высота */
     object-fit: cover;
 }
 
@@ -113,37 +124,24 @@ body {
     pointer-events: none;
 }
 
-/* Оптимизация для мобильных устройств */
+/* Медиа-запрос для мобильных устройств */
 @media screen and (max-width: 768px) {
-    .manga-container {
+    .manga-grid {
+        grid-template-columns: 1fr;
         padding: 10px;
+        margin-top: 50px;
     }
-
-    .manga-card {
-        width: 100%;
-        max-width: 350px;
-    }
-
+    
     .manga-card img {
-        height: 450px;
+        height: 200px;
     }
-
-    .search-container {
-        top: 10px;
-        right: 10px;
-    }
-
-    .search-input:focus {
-        width: calc(100vw - 80px); /* Растягиваем поиск почти на всю ширину экрана */
-        max-width: 300px;
-    }
-
+    
     .manga-info h3 {
-        font-size: 18px;
+        font-size: 16px;
     }
-
+    
     .manga-info p {
-        font-size: 13px;
+        font-size: 12px;
     }
 }
 
