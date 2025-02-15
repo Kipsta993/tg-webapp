@@ -125,43 +125,9 @@ body {
     pointer-events: none;
 }
 
-/* Медиа-запрос для мобильных устройств */
+/* Удаляем все медиа-запросы для мобильных устройств, оставляем только для поиска */
 @media screen and (max-width: 768px) {
-    .manga-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
-        padding: 25px;
-        margin-top: max(
-            calc(50px + 25px),
-            calc(var(--search-height, 50px) + 50px)
-        );
-    }
-    
-    .manga-card img {
-        height: 200px;
-    }
-    
-    .manga-info h3 {
-        font-size: 14px;
-    }
-    
-    .manga-info p {
-        font-size: 11px;
-    }
-}
-
-/* Для очень маленьких экранов */
-@media screen and (max-width: 350px) {
-    .manga-card {
-        width: 100%;
-        max-width: 280px;
-    }
-
-    .manga-card img {
-        height: 380px;
-    }
-
     .search-input:focus {
-        width: calc(100vw - 60px);
+        width: 300px;
     }
 }
