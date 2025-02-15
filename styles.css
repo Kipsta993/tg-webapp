@@ -7,6 +7,9 @@
 body {
     background-color: #1a1a1a;
     font-family: 'Poppins', sans-serif;
+    min-height: 100vh; /* Минимальная высота на весь экран */
+    position: relative;
+    -webkit-overflow-scrolling: touch; /* Для плавного скролла на iOS */
 }
 
 .manga-container {
@@ -20,6 +23,7 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 25px;
     padding: 20px;
+    padding-bottom: 50px; /* Добавляем отступ снизу для скролла */
     margin-top: calc(60px + 25px);
     max-width: 600px;
     margin-left: auto;
@@ -152,5 +156,36 @@ body {
 @media screen and (max-width: 768px) {
     .search-input:focus {
         width: 300px;
+    }
+}
+
+/* Добавляем стили для скролла */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2a2a2a;
+    border-radius: 4px;
+}
+
+/* Для поддержки скролла в Telegram WebApp */
+@media screen and (max-width: 768px) {
+    body {
+        overflow-y: auto !important;
+        overscroll-behavior-y: contain;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+    
+    .manga-grid {
+        margin-bottom: 30px; /* Дополнительный отступ для скролла на мобильных */
     }
 }
