@@ -2,107 +2,166 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Simple Draw</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
             margin: 0;
-            padding: 10px;
-            background: var(--tg-theme-bg-color, #ffffff);
+            padding: 16px;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            font-family: Arial, sans-serif;
             touch-action: none;
             overflow: hidden;
         }
 
-        #canvas {
-            border: 2px solid #000;
-            background: white;
-            touch-action: none;
-            width: 100%;
-            max-width: 600px;
-            height: 400px;
+        .container {
+            max-width: 800px;
             margin: 0 auto;
-            display: block;
-        }
-
-        .buttons {
-            margin: 10px auto;
             text-align: center;
-            max-width: 600px;
         }
 
-        button {
-            width: 40px;
-            height: 40px;
-            margin: 5px;
+        #canvas {
+            border: 2px solid var(--tg-theme-button-color, #3390ec);
+            border-radius: 12px;
+            background: white;
+            margin: 10px 0;
+            touch-action: none;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        .color-btn {
+            width: 44px;
+            height: 44px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        .clear {
-            width: auto;
-            padding: 0 20px;
-            background: red;
+        .color-btn:active {
+            transform: scale(0.95);
+        }
+
+        .size-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 8px;
+            background: var(--tg-theme-button-color, #3390ec);
             color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .clear-btn {
+            height: 44px;
+            padding: 0 20px;
+            border: none;
+            border-radius: 8px;
+            background: #FF6B6B;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    
-    <div class="buttons">
-        <button style="background: black" onclick="setColor('black')"></button>
-        <button style="background: red" onclick="setColor('red')"></button>
-        <button style="background: blue" onclick="setColor('blue')"></button>
-        <button style="background: green" onclick="setColor('green')"></button>
-        <button class="clear" onclick="clearCanvas()">Очистить</button>
+    <div class="container">
+        <canvas id="canvas"></canvas>
+        
+        <div class="controls">
+            <!-- Предустановленные цвета -->
+            <button class="color-btn" style="background: #000000" onclick="setColor('#000000')"></button>
+            <button class="color-btn" style="background: #FF0000" onclick="setColor('#FF0000')"></button>
+            <button class="color-btn" style="background: #00FF00" onclick="setColor('#00FF00')"></button>
+            <button class="color-btn" style="background: #0000FF" onclick="setColor('#0000FF')"></button>
+            <button class="color-btn" style="background: #FFFF00" onclick="setColor('#FFFF00')"></button>
+            
+            <!-- Размер кисти -->
+            <button class="size-btn" onclick="setSize(5)">S</button>
+            <button class="size-btn" onclick="setSize(15)">M</button>
+            <button class="size-btn" onclick="setSize(30)">L</button>
+            
+            <!-- Очистка -->
+            <button class="clear-btn" onclick="clearCanvas()">Очистить</button>
+        </div>
     </div>
 
     <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
-        let currentColor = 'black';
+        let lastX = 0;
+        let lastY = 0;
+        let currentColor = '#000000';
+        let currentSize = 5;
 
-        // Устанавливаем размер canvas
-        function setCanvasSize() {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
+        // Установка размера холста
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            const width = Math.min(container.clientWidth - 32, 800);
+            canvas.width = width;
+            canvas.height = width * 0.8;
         }
-        setCanvasSize();
-        window.onresize = setCanvasSize;
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
         // Функции рисования
-        function startDrawing(e) {
-            isDrawing = true;
-            draw(e);
-        }
-
-        function stopDrawing() {
-            isDrawing = false;
-            ctx.beginPath();
-        }
-
         function draw(e) {
             if (!isDrawing) return;
 
             let x, y;
-            if (e.type.includes('touch')) {
-                x = e.touches[0].clientX - canvas.offsetLeft;
-                y = e.touches[0].clientY - canvas.offsetTop;
-            } else {
+            if (e.type === 'mousemove') {
                 x = e.offsetX;
                 y = e.offsetY;
+            } else if (e.type === 'touchmove') {
+                const rect = canvas.getBoundingClientRect();
+                x = e.touches[0].clientX - rect.left;
+                y = e.touches[0].clientY - rect.top;
+                e.preventDefault();
             }
 
-            ctx.lineWidth = 5;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = currentColor;
-
-            ctx.lineTo(x, y);
-            ctx.stroke();
             ctx.beginPath();
-            ctx.moveTo(x, y);
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = currentColor;
+            ctx.lineWidth = currentSize;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            [lastX, lastY] = [x, y];
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            if (e.type === 'mousedown') {
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            } else if (e.type === 'touchstart') {
+                const rect = canvas.getBoundingClientRect();
+                [lastX, lastY] = [
+                    e.touches[0].clientX - rect.left,
+                    e.touches[0].clientY - rect.top
+                ];
+                e.preventDefault();
+            }
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
         }
 
         // Обработчики событий
@@ -118,19 +177,15 @@
         // Вспомогательные функции
         function setColor(color) {
             currentColor = color;
-            ctx.beginPath();
+        }
+
+        function setSize(size) {
+            currentSize = size;
         }
 
         function clearCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
-
-        // Предотвращаем скролл при рисовании
-        document.body.addEventListener('touchmove', function(e) {
-            if (e.target === canvas) {
-                e.preventDefault();
-            }
-        }, { passive: false });
     </script>
 </body>
 </html>
