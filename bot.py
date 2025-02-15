@@ -1,9 +1,7 @@
 import os
-import sys
 import logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
-from telegram.error import Conflict
 
 # Настройка логирования
 logging.basicConfig(
@@ -12,62 +10,39 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Получаем токен из переменных окружения
+# Токен из переменных окружения
 TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Привет! Я бот.')
 
 async def main():
-    # Создаем файл для проверки запущенных экземпляров
-    pid_file = "bot.pid"
-    
-    # Проверяем, не запущен ли уже бот
-    if os.path.exists(pid_file):
-        try:
-            with open(pid_file, 'r') as f:
-                old_pid = int(f.read())
-            # Проверяем, жив ли процесс
-            os.kill(old_pid, 0)
-            logger.error("Бот уже запущен в другом процессе!")
-            sys.exit(1)
-        except OSError:
-            # Если процесс мертв, удаляем файл
-            os.remove(pid_file)
-    
-    # Записываем текущий PID
-    with open(pid_file, 'w') as f:
-        f.write(str(os.getpid()))
-
     try:
-        # Создаем приложение с обработкой ошибок
+        # Инициализация бота
         application = Application.builder().token(TOKEN).build()
         
-        # Добавляем обработчики
+        # Добавляем команды
         application.add_handler(CommandHandler("start", start))
         
         # Запускаем бота
-        logger.info("Бот запущен...")
+        logger.info("Бот запускается...")
+        await application.initialize()
+        await application.start()
         await application.run_polling(allowed_updates=Update.ALL_TYPES)
-
-    except Conflict:
-        logger.error("Обнаружен конфликт с другим экземпляром бота")
-        if os.path.exists(pid_file):
-            os.remove(pid_file)
-        sys.exit(1)
+        
     except Exception as e:
-        logger.error(f"Произошла ошибка: {e}")
-        if os.path.exists(pid_file):
-            os.remove(pid_file)
-        sys.exit(1)
+        logger.error(f"Ошибка: {e}")
+        
     finally:
-        # Удаляем PID файл при выходе
-        if os.path.exists(pid_file):
-            os.remove(pid_file)
+        # Корректное завершение
+        await application.stop()
+        await application.shutdown()
 
 if __name__ == '__main__':
+    import asyncio
+    
     try:
-        import asyncio
+        # Запускаем главную функцию
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.info("Бот остановлен пользователем")
