@@ -1,335 +1,191 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quantum Drawing Interface</title>
+    <title>Simple Draw</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root {
-            --primary-color: var(--tg-theme-button-color, #3390ec);
-            --text-color: var(--tg-theme-text-color, #000000);
-            --bg-color: var(--tg-theme-bg-color, #ffffff);
-            --accent-color: #FF6B6B;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.5;
+            margin: 0;
+            padding: 16px;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            font-family: Arial, sans-serif;
             touch-action: none;
             overflow: hidden;
         }
 
         .container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            padding: 16px;
-            gap: 16px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px;
-        }
-
-        .canvas-container {
-            position: relative;
-            flex: 1;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        #mainCanvas, #tempCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+        #canvas {
+            border: 2px solid var(--tg-theme-button-color, #3390ec);
+            border-radius: 12px;
+            background: white;
+            margin: 10px 0;
             touch-action: none;
         }
 
-        .tools {
+        .controls {
             display: flex;
-            gap: 8px;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
             flex-wrap: wrap;
-            justify-content: center;
-            padding: 8px;
-            background: rgba(var(--tg-theme-bg-color, 255, 255, 255), 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
         }
 
-        .tool-button {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-            min-width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .tool-button.active {
-            background: var(--accent-color);
-            transform: scale(1.1);
-        }
-
-        .tool-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .color-picker {
-            position: relative;
+        .color-btn {
             width: 44px;
             height: 44px;
+            border: none;
             border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .color-picker input {
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            top: -25%;
-            left: -25%;
             cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        .size-control {
-            position: relative;
-            width: 150px;
+        .color-btn:active {
+            transform: scale(0.95);
+        }
+
+        .size-btn {
+            width: 44px;
             height: 44px;
-            display: flex;
-            align-items: center;
-            background: rgba(var(--tg-theme-bg-color, 255, 255, 255), 0.3);
+            border: none;
             border-radius: 8px;
-            padding: 0 12px;
-        }
-
-        .size-slider {
-            width: 100%;
-            height: 4px;
-            -webkit-appearance: none;
-            background: var(--primary-color);
-            border-radius: 2px;
-            outline: none;
-        }
-
-        .size-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
+            background: var(--tg-theme-button-color, #3390ec);
+            color: white;
+            font-size: 18px;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
         }
 
-        .floating-panel {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            z-index: 1000;
-        }
-
-        @media (max-width: 600px) {
-            .tools {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                border-radius: 16px 16px 0 0;
-            }
+        .clear-btn {
+            height: 44px;
+            padding: 0 20px;
+            border: none;
+            border-radius: 8px;
+            background: #FF6B6B;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Quantum Draw</h1>
-            <div id="stats"></div>
-        </div>
-
-        <div class="canvas-container">
-            <canvas id="mainCanvas"></canvas>
-            <canvas id="tempCanvas"></canvas>
-        </div>
-
-        <div class="tools">
-            <button class="tool-button active" data-tool="brush">🖌️</button>
-            <button class="tool-button" data-tool="eraser">⌫</button>
-            <button class="tool-button" data-tool="line">📏</button>
-            <button class="tool-button" data-tool="circle">⭕</button>
-            <button class="tool-button" data-tool="rectangle">⬜</button>
+        <canvas id="canvas"></canvas>
+        
+        <div class="controls">
+            <!-- Предустановленные цвета -->
+            <button class="color-btn" style="background: #000000" onclick="setColor('#000000')"></button>
+            <button class="color-btn" style="background: #FF0000" onclick="setColor('#FF0000')"></button>
+            <button class="color-btn" style="background: #00FF00" onclick="setColor('#00FF00')"></button>
+            <button class="color-btn" style="background: #0000FF" onclick="setColor('#0000FF')"></button>
+            <button class="color-btn" style="background: #FFFF00" onclick="setColor('#FFFF00')"></button>
             
-            <div class="color-picker">
-                <input type="color" id="colorPicker" value="#000000">
-            </div>
+            <!-- Размер кисти -->
+            <button class="size-btn" onclick="setSize(5)">S</button>
+            <button class="size-btn" onclick="setSize(15)">M</button>
+            <button class="size-btn" onclick="setSize(30)">L</button>
             
-            <div class="size-control">
-                <input type="range" id="sizeSlider" class="size-slider" min="1" max="50" value="5">
-            </div>
+            <!-- Очистка -->
+            <button class="clear-btn" onclick="clearCanvas()">Очистить</button>
         </div>
     </div>
 
     <script>
-        class QuantumDrawingApp {
-            constructor() {
-                this.initializeTelegram();
-                this.setupCanvas();
-                this.setupTools();
-                this.setupEventListeners();
-                this.initializeState();
-                
-                // Запуск оптимизированного рендеринга
-                this.startRenderLoop();
-            }
+        let tg = window.Telegram.WebApp;
+        tg.expand();
 
-            initializeTelegram() {
-                this.tg = window.Telegram.WebApp;
-                this.tg.expand();
-                this.tg.ready();
-            }
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let currentColor = '#000000';
+        let currentSize = 5;
 
-            setupCanvas() {
-                this.mainCanvas = document.getElementById('mainCanvas');
-                this.tempCanvas = document.getElementById('tempCanvas');
-                this.mainCtx = this.mainCanvas.getContext('2d', { alpha: false });
-                this.tempCtx = this.tempCanvas.getContext('2d');
-                
-                // Включаем оптимизации
-                this.mainCtx.imageSmoothingEnabled = true;
-                this.mainCtx.imageSmoothingQuality = 'high';
-                
-                this.resizeCanvas();
-                this.setupHighDPI();
-            }
-
-            setupHighDPI() {
-                const dpr = window.devicePixelRatio || 1;
-                const rect = this.mainCanvas.getBoundingClientRect();
-                
-                this.mainCanvas.width = rect.width * dpr;
-                this.mainCanvas.height = rect.height * dpr;
-                this.tempCanvas.width = rect.width * dpr;
-                this.tempCanvas.height = rect.height * dpr;
-                
-                this.mainCtx.scale(dpr, dpr);
-                this.tempCtx.scale(dpr, dpr);
-            }
-
-            setupTools() {
-                this.tools = {
-                    brush: {
-                        draw: (x, y) => this.drawBrush(x, y),
-                        start: () => this.startBrush(),
-                        end: () => this.endBrush()
-                    },
-                    eraser: {
-                        draw: (x, y) => this.erase(x, y),
-                        start: () => this.startEraser(),
-                        end: () => this.endEraser()
-                    },
-                    line: {
-                        draw: (x, y) => this.drawLine(x, y),
-                        start: () => this.startLine(),
-                        end: () => this.endLine()
-                    },
-                    // Добавьте другие инструменты здесь
-                };
-                
-                this.currentTool = 'brush';
-            }
-
-            setupEventListeners() {
-                // Оптимизированные обработчики событий
-                const pointerMove = this.createThrottledEvent(this.handlePointerMove.bind(this));
-                
-                this.mainCanvas.addEventListener('pointerdown', this.handlePointerDown.bind(this));
-                this.mainCanvas.addEventListener('pointermove', pointerMove);
-                this.mainCanvas.addEventListener('pointerup', this.handlePointerUp.bind(this));
-                this.mainCanvas.addEventListener('pointerout', this.handlePointerUp.bind(this));
-                
-                window.addEventListener('resize', this.debounce(this.resizeCanvas.bind(this), 250));
-            }
-
-            createThrottledEvent(callback, limit = 1000 / 60) {
-                let waiting = false;
-                return (e) => {
-                    if (!waiting) {
-                        callback(e);
-                        waiting = true;
-                        requestAnimationFrame(() => waiting = false);
-                    }
-                };
-            }
-
-            debounce(func, wait) {
-                let timeout;
-                return (...args) => {
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => func.apply(this, args), wait);
-                };
-            }
-
-            startRenderLoop() {
-                let lastTime = performance.now();
-                const loop = (currentTime) => {
-                    const delta = currentTime - lastTime;
-                    this.update(delta);
-                    this.render();
-                    lastTime = currentTime;
-                    requestAnimationFrame(loop);
-                };
-                requestAnimationFrame(loop);
-            }
-
-            update(delta) {
-                // Обновление состояния приложения
-                if (this.isDrawing) {
-                    this.updateDrawing(delta);
-                }
-            }
-
-            render() {
-                // Оптимизированный рендеринг
-                this.tempCtx.clearRect(0, 0, this.tempCanvas.width, this.tempCanvas.height);
-                
-                if (this.isDrawing) {
-                    this.tools[this.currentTool].draw(this.currentX, this.currentY);
-                }
-            }
-
-            // Добавьте остальные методы для рисования, сохранения и т.д.
+        // Установка размера холста
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            const width = Math.min(container.clientWidth - 32, 800);
+            canvas.width = width;
+            canvas.height = width * 0.8;
         }
 
-        // Инициализация приложения
-        window.addEventListener('load', () => {
-            const app = new QuantumDrawingApp();
-        });
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Функции рисования
+        function draw(e) {
+            if (!isDrawing) return;
+
+            let x, y;
+            if (e.type === 'mousemove') {
+                x = e.offsetX;
+                y = e.offsetY;
+            } else if (e.type === 'touchmove') {
+                const rect = canvas.getBoundingClientRect();
+                x = e.touches[0].clientX - rect.left;
+                y = e.touches[0].clientY - rect.top;
+                e.preventDefault();
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = currentColor;
+            ctx.lineWidth = currentSize;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            [lastX, lastY] = [x, y];
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            if (e.type === 'mousedown') {
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            } else if (e.type === 'touchstart') {
+                const rect = canvas.getBoundingClientRect();
+                [lastX, lastY] = [
+                    e.touches[0].clientX - rect.left,
+                    e.touches[0].clientY - rect.top
+                ];
+                e.preventDefault();
+            }
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        // Обработчики событий
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDrawing);
+
+        // Вспомогательные функции
+        function setColor(color) {
+            currentColor = color;
+        }
+
+        function setSize(size) {
+            currentSize = size;
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
     </script>
 </body>
 </html>
