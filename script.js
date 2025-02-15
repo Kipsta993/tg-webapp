@@ -26,4 +26,24 @@ document.querySelector('.search-input').addEventListener('focus', function() {
 
 document.querySelector('.search-input').addEventListener('blur', function() {
     setTimeout(updateMangaGridMargin, 300);
-}); 
+});
+
+// Добавляем поддержку скролла для Telegram WebApp
+if (window.Telegram && window.Telegram.WebApp) {
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+    
+    // Отключаем стандартное поведение скролла
+    document.addEventListener('touchmove', function(e) {
+        e.stopPropagation();
+    }, { passive: true });
+}
+
+// Фиксим высоту для iOS
+function setViewportHeight() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+window.addEventListener('resize', setViewportHeight);
+setViewportHeight(); 
