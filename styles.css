@@ -41,7 +41,7 @@ body {
 
 .manga-card img {
     width: 100%;
-    height: 300px;
+    height: 300px; /* Базовая высота для ПК */
     object-fit: cover;
     background: #1a1a1a;
 }
@@ -125,7 +125,29 @@ body {
     pointer-events: none;
 }
 
-/* Удаляем все медиа-запросы для мобильных устройств, оставляем только для поиска */
+/* Добавляем медиа-запросы только для размеров изображений */
+@media screen and (max-width: 768px) {
+    .manga-card img {
+        height: 200px; /* Меньшая высота для планшетов */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .manga-card img {
+        height: 150px; /* Ещё меньшая высота для телефонов */
+    }
+    
+    .manga-info {
+        padding: 15px; /* Уменьшаем отступы для информации */
+    }
+    
+    .manga-grid {
+        gap: 15px; /* Уменьшаем отступы между карточками */
+        padding: 15px;
+    }
+}
+
+/* Оставляем медиа-запрос для поиска */
 @media screen and (max-width: 768px) {
     .search-input:focus {
         width: 300px;
