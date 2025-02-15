@@ -1,217 +1,335 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Telegram WebApp</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quantum Drawing Interface</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        :root {
+            --primary-color: var(--tg-theme-button-color, #3390ec);
+            --text-color: var(--tg-theme-text-color, #000000);
+            --bg-color: var(--tg-theme-bg-color, #ffffff);
+            --accent-color: #FF6B6B;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--tg-theme-bg-color, #1a1a1a);
-            color: var(--tg-theme-text-color, #ffffff);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
-            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.5;
+            touch-action: none;
+            overflow: hidden;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .button-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 30px;
+            flex-direction: column;
+            height: 100vh;
+            padding: 16px;
+            gap: 16px;
         }
 
-        .button {
-            background: linear-gradient(45deg, #4ECDC4, #556270);
-            border: none;
-            padding: 15px 30px;
-            border-radius: 15px;
-            cursor: pointer;
-            color: white;
-            font-size: 1.1em;
-            font-weight: 500;
-            transition: transform 0.2s, box-shadow 0.2s;
-            flex: 1;
-            min-width: 150px;
-            max-width: 200px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
         }
 
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-
-        .button:active {
-            transform: translateY(1px);
-        }
-
-        .content {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            margin-top: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .content h2 {
-            color: #4ECDC4;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-
-        .content p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-
-        .content ul {
-            list-style-position: inside;
-            margin-left: 20px;
-        }
-
-        .content li {
-            margin-bottom: 10px;
-            line-height: 1.4;
+        .canvas-container {
             position: relative;
-            padding-left: 20px;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
-        .content li::before {
-            content: '•';
-            color: #4ECDC4;
+        #mainCanvas, #tempCanvas {
             position: absolute;
+            top: 0;
             left: 0;
+            touch-action: none;
         }
 
-        .hidden {
-            display: none;
+        .tools {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 8px;
+            background: rgba(var(--tg-theme-bg-color, 255, 255, 255), 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
         }
 
-        /* Адаптивный дизайн */
+        .tool-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tool-button.active {
+            background: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        .tool-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .color-picker {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .color-picker input {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            cursor: pointer;
+        }
+
+        .size-control {
+            position: relative;
+            width: 150px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            background: rgba(var(--tg-theme-bg-color, 255, 255, 255), 0.3);
+            border-radius: 8px;
+            padding: 0 12px;
+        }
+
+        .size-slider {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            background: var(--primary-color);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .floating-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+        }
+
         @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            .button {
-                padding: 12px 20px;
-                font-size: 1em;
-            }
-
-            .content {
-                padding: 20px;
+            .tools {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                border-radius: 16px 16px 0 0;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Мини-справочник</h1>
-        
-        <div class="button-container">
-            <button class="button" onclick="showContent('health')">Здоровье</button>
-            <button class="button" onclick="showContent('sport')">Спорт</button>
-            <button class="button" onclick="showContent('food')">Питание</button>
-        </div>
-        
-        <div id="health" class="content hidden">
-            <h2>Здоровье</h2>
-            <p>Здоровье - это состояние полного физического, душевного и социального благополучия, а не только отсутствие болезней и физических дефектов.</p>
-            <p>Основные компоненты здорового образа жизни:</p>
-            <ul>
-                <li>Регулярные физические упражнения</li>
-                <li>Правильное питание</li>
-                <li>Достаточный сон</li>
-                <li>Управление стрессом</li>
-            </ul>
+        <div class="header">
+            <h1>Quantum Draw</h1>
+            <div id="stats"></div>
         </div>
 
-        <div id="sport" class="content hidden">
-            <h2>Спорт</h2>
-            <p>Спорт играет важную роль в поддержании здоровья и хорошего самочувствия.</p>
-            <p>Рекомендуемые виды активности:</p>
-            <ul>
-                <li>Ходьба - 10000 шагов в день</li>
-                <li>Бег - 2-3 раза в неделю</li>
-                <li>Плавание - отличная кардионагрузка</li>
-                <li>Йога - для гибкости и баланса</li>
-            </ul>
+        <div class="canvas-container">
+            <canvas id="mainCanvas"></canvas>
+            <canvas id="tempCanvas"></canvas>
         </div>
 
-        <div id="food" class="content hidden">
-            <h2>Правильное питание</h2>
-            <p>Основы здорового питания:</p>
-            <ul>
-                <li>Больше овощей и фруктов</li>
-                <li>Цельнозерновые продукты</li>
-                <li>Ограничение сахара</li>
-                <li>Достаточное количество белка</li>
-                <li>Правильный питьевой режим</li>
-            </ul>
+        <div class="tools">
+            <button class="tool-button active" data-tool="brush">🖌️</button>
+            <button class="tool-button" data-tool="eraser">⌫</button>
+            <button class="tool-button" data-tool="line">📏</button>
+            <button class="tool-button" data-tool="circle">⭕</button>
+            <button class="tool-button" data-tool="rectangle">⬜</button>
+            
+            <div class="color-picker">
+                <input type="color" id="colorPicker" value="#000000">
+            </div>
+            
+            <div class="size-control">
+                <input type="range" id="sizeSlider" class="size-slider" min="1" max="50" value="5">
+            </div>
         </div>
     </div>
-    
+
     <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
+        class QuantumDrawingApp {
+            constructor() {
+                this.initializeTelegram();
+                this.setupCanvas();
+                this.setupTools();
+                this.setupEventListeners();
+                this.initializeState();
+                
+                // Запуск оптимизированного рендеринга
+                this.startRenderLoop();
+            }
 
-        // Показываем первый раздел при загрузке
-        window.onload = function() {
-            showContent('health');
+            initializeTelegram() {
+                this.tg = window.Telegram.WebApp;
+                this.tg.expand();
+                this.tg.ready();
+            }
+
+            setupCanvas() {
+                this.mainCanvas = document.getElementById('mainCanvas');
+                this.tempCanvas = document.getElementById('tempCanvas');
+                this.mainCtx = this.mainCanvas.getContext('2d', { alpha: false });
+                this.tempCtx = this.tempCanvas.getContext('2d');
+                
+                // Включаем оптимизации
+                this.mainCtx.imageSmoothingEnabled = true;
+                this.mainCtx.imageSmoothingQuality = 'high';
+                
+                this.resizeCanvas();
+                this.setupHighDPI();
+            }
+
+            setupHighDPI() {
+                const dpr = window.devicePixelRatio || 1;
+                const rect = this.mainCanvas.getBoundingClientRect();
+                
+                this.mainCanvas.width = rect.width * dpr;
+                this.mainCanvas.height = rect.height * dpr;
+                this.tempCanvas.width = rect.width * dpr;
+                this.tempCanvas.height = rect.height * dpr;
+                
+                this.mainCtx.scale(dpr, dpr);
+                this.tempCtx.scale(dpr, dpr);
+            }
+
+            setupTools() {
+                this.tools = {
+                    brush: {
+                        draw: (x, y) => this.drawBrush(x, y),
+                        start: () => this.startBrush(),
+                        end: () => this.endBrush()
+                    },
+                    eraser: {
+                        draw: (x, y) => this.erase(x, y),
+                        start: () => this.startEraser(),
+                        end: () => this.endEraser()
+                    },
+                    line: {
+                        draw: (x, y) => this.drawLine(x, y),
+                        start: () => this.startLine(),
+                        end: () => this.endLine()
+                    },
+                    // Добавьте другие инструменты здесь
+                };
+                
+                this.currentTool = 'brush';
+            }
+
+            setupEventListeners() {
+                // Оптимизированные обработчики событий
+                const pointerMove = this.createThrottledEvent(this.handlePointerMove.bind(this));
+                
+                this.mainCanvas.addEventListener('pointerdown', this.handlePointerDown.bind(this));
+                this.mainCanvas.addEventListener('pointermove', pointerMove);
+                this.mainCanvas.addEventListener('pointerup', this.handlePointerUp.bind(this));
+                this.mainCanvas.addEventListener('pointerout', this.handlePointerUp.bind(this));
+                
+                window.addEventListener('resize', this.debounce(this.resizeCanvas.bind(this), 250));
+            }
+
+            createThrottledEvent(callback, limit = 1000 / 60) {
+                let waiting = false;
+                return (e) => {
+                    if (!waiting) {
+                        callback(e);
+                        waiting = true;
+                        requestAnimationFrame(() => waiting = false);
+                    }
+                };
+            }
+
+            debounce(func, wait) {
+                let timeout;
+                return (...args) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(this, args), wait);
+                };
+            }
+
+            startRenderLoop() {
+                let lastTime = performance.now();
+                const loop = (currentTime) => {
+                    const delta = currentTime - lastTime;
+                    this.update(delta);
+                    this.render();
+                    lastTime = currentTime;
+                    requestAnimationFrame(loop);
+                };
+                requestAnimationFrame(loop);
+            }
+
+            update(delta) {
+                // Обновление состояния приложения
+                if (this.isDrawing) {
+                    this.updateDrawing(delta);
+                }
+            }
+
+            render() {
+                // Оптимизированный рендеринг
+                this.tempCtx.clearRect(0, 0, this.tempCanvas.width, this.tempCanvas.height);
+                
+                if (this.isDrawing) {
+                    this.tools[this.currentTool].draw(this.currentX, this.currentY);
+                }
+            }
+
+            // Добавьте остальные методы для рисования, сохранения и т.д.
         }
 
-        function showContent(id) {
-            // Скрываем все контенты
-            document.querySelectorAll('.content').forEach(content => {
-                content.classList.add('hidden');
-            });
-            
-            // Показываем выбранный контент
-            document.getElementById(id).classList.remove('hidden');
-        }
+        // Инициализация приложения
+        window.addEventListener('load', () => {
+            const app = new QuantumDrawingApp();
+        });
     </script>
 </body>
 </html>
