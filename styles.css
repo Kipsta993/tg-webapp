@@ -134,16 +134,17 @@ body {
 
 @media screen and (max-width: 480px) {
     .manga-card img {
-        height: 150px; /* Ещё меньшая высота для телефонов */
+        height: 150px;
     }
     
     .manga-info {
-        padding: 15px; /* Уменьшаем отступы для информации */
+        padding: 15px;
     }
     
     .manga-grid {
-        gap: 15px; /* Уменьшаем отступы между карточками */
+        gap: 15px;
         padding: 15px;
+        max-width: 615px; /* 600px + 15px */
     }
 }
 
