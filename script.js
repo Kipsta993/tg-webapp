@@ -1,27 +1,23 @@
 // Функция для фильтрации манги
 function filterManga(searchText) {
-    try {
-        const mangaCards = document.querySelectorAll('.manga-card');
-        const searchQuery = searchText.toLowerCase();
+    const mangaCards = document.querySelectorAll('.manga-card');
+    const searchQuery = searchText.toLowerCase();
+    
+    mangaCards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
         
-        mangaCards.forEach(card => {
-            const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
-            
-            if (title.includes(searchQuery)) {
-                card.style.display = 'block';
-                card.style.opacity = '1';
-                card.style.transform = 'scale(1)';
-            } else {
-                card.style.opacity = '0';
-                card.style.transform = 'scale(0.8)';
-                setTimeout(() => {
-                    card.style.display = 'none';
-                }, 300);
-            }
-        });
-    } catch (error) {
-        console.error('Error filtering manga:', error);
-    }
+        if (title.includes(searchQuery)) {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+        } else {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                card.style.display = 'none';
+            }, 300);
+        }
+    });
 }
 
 // Функция для фильтрации по жанрам
@@ -121,14 +117,3 @@ function setViewportHeight() {
 
 window.addEventListener('resize', setViewportHeight);
 setViewportHeight();
-
-// Добавить закрытие фильтра при клике вне
-document.addEventListener('click', (e) => {
-    const filterScreen = document.querySelector('.filter-screen');
-    const filterBtn = document.querySelector('.filter-btn');
-    
-    if (!filterScreen.contains(e.target) && !filterBtn.contains(e.target) && filterScreen.classList.contains('show')) {
-        filterScreen.classList.remove('show');
-        document.querySelector('.overlay').classList.remove('show');
-    }
-});
