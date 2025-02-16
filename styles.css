@@ -393,7 +393,7 @@ body {
     transform: rotate(180deg);
 }
 
-/* И добавляем их сюда */
+/* Оставляем эти стили */
 .filter-screen.show .close-btn {
     position: fixed;
     left: 20px;
