@@ -94,18 +94,6 @@ if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
     window.Telegram.WebApp.expand();
     
-    // Для ПК версии
-    if (window.innerWidth > 768) {
-        window.Telegram.WebApp.MainButton.hide(); // Скрываем главную кнопку
-        window.Telegram.WebApp.expand(); // Расширяем окно
-        window.Telegram.WebApp.setBackgroundColor('#1a1a1a'); // Устанавливаем цвет фона
-        
-        // Устанавливаем параметры окна
-        window.Telegram.WebApp.onEvent('viewportChanged', function() {
-            window.Telegram.WebApp.expand();
-        });
-    }
-    
     // Отключаем стандартное поведение скролла
     document.addEventListener('touchmove', function(e) {
         e.stopPropagation();
