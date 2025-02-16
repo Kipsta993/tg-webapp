@@ -55,3 +55,48 @@ function setViewportHeight() {
 
 window.addEventListener('resize', setViewportHeight);
 setViewportHeight(); 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const filterBtn = document.querySelector('.filter-btn');
+    const filterScreen = document.querySelector('.filter-screen');
+    const closeBtn = document.querySelector('.close-btn');
+    const overlay = document.querySelector('.overlay');
+    const resetBtn = document.querySelector('.reset-btn');
+    const genreTags = document.querySelectorAll('.genre-tag input');
+    const searchInput = document.querySelector('.search-input');
+
+    // Открытие фильтра
+    filterBtn.addEventListener('click', () => {
+        filterScreen.classList.add('show');
+        overlay.classList.add('show');
+    });
+
+    // Закрытие фильтра
+    closeBtn.addEventListener('click', () => {
+        filterScreen.classList.remove('show');
+        overlay.classList.remove('show');
+    });
+
+    // Закрытие при клике на оверлей
+    overlay.addEventListener('click', () => {
+        filterScreen.classList.remove('show');
+        overlay.classList.remove('show');
+    });
+
+    // Сброс фильтров
+    resetBtn.addEventListener('click', () => {
+        genreTags.forEach(tag => tag.checked = false);
+        searchInput.value = '';
+        filterManga('');
+    });
+
+    // Обработка жанров
+    genreTags.forEach(tag => {
+        tag.addEventListener('change', () => {
+            const selectedGenres = Array.from(genreTags)
+                .filter(t => t.checked)
+                .map(t => t.nextElementSibling.textContent);
+            filterByGenres(selectedGenres);
+        });
+    });
+});
