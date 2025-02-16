@@ -249,15 +249,15 @@ body {
 
 .filter-header-top {
     display: flex;
-    justify-content: flex-end; /* Теперь только для кнопки сброса */
+    justify-content: flex-start; /* Меняем на flex-start */
     align-items: center;
     margin-bottom: 20px;
 }
 
 .close-btn {
-    position: fixed; /* Фиксируем позицию */
-    left: 20px; /* Отступ слева */
-    bottom: 20px; /* Отступ снизу */
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
     background: #2a2a2a;
     border: none;
     color: #fff;
@@ -265,16 +265,23 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    display: flex;
+    display: none; /* Скрываем по умолчанию */
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
     margin: 0;
-    z-index: 2001; /* Чтобы кнопка была над контентом фильтра */
+    z-index: 2001;
 }
 
-.close-btn:hover {
-    background: #3a3a3a;
+.filter-screen.show .close-btn {
+    display: flex; /* Показываем только когда фильтр открыт */
+}
+
+.filter-header-top h2 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
 }
 
 .filter-content {
