@@ -125,4 +125,70 @@ document.addEventListener('click', (e) => {
     if (!genreDropdownBtn.contains(e.target) && !genreDropdown.contains(e.target)) {
         genreDropdown.classList.remove('show');
     }
-}); 
+});
+
+const filterBtn = document.querySelector('.filter-btn');
+const filterSidebar = document.querySelector('.filter-sidebar');
+const closeBtn = document.querySelector('.close-btn');
+const overlay = document.querySelector('.overlay');
+const resetBtn = document.querySelector('.reset-btn');
+const genreTags = document.querySelectorAll('.genre-tag input');
+
+// Открытие/закрытие сайдбара
+filterBtn.addEventListener('click', () => {
+    filterSidebar.classList.add('show');
+    overlay.classList.add('show');
+});
+
+function closeSidebar() {
+    filterSidebar.classList.remove('show');
+    overlay.classList.remove('show');
+}
+
+closeBtn.addEventListener('click', closeSidebar);
+overlay.addEventListener('click', closeSidebar);
+
+// Сброс фильтров
+resetBtn.addEventListener('click', () => {
+    genreTags.forEach(tag => tag.checked = false);
+    document.querySelector('.search-input').value = '';
+    filterManga('');
+});
+
+// Фильтрация по жанрам
+genreTags.forEach(tag => {
+    tag.addEventListener('change', () => {
+        const selectedGenres = Array.from(genreTags)
+            .filter(t => t.checked)
+            .map(t => t.nextElementSibling.textContent);
+        
+        filterByGenres(selectedGenres);
+    });
+});
+
+function filterByGenres(genres) {
+    const mangaCards = document.querySelectorAll('.manga-card');
+    
+    mangaCards.forEach(card => {
+        if (genres.length === 0) {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+            return;
+        }
+        
+        const cardGenres = card.querySelector('.manga-type').textContent;
+        const shouldShow = genres.every(genre => cardGenres.includes(genre));
+        
+        if (shouldShow) {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+        } else {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                card.style.display = 'none';
+            }, 300);
+        }
+    });
+} 
