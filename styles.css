@@ -32,13 +32,10 @@ body {
 }
 
 .manga-grid {
-    position: relative; /* Добавляем для правильного позиционирования кнопки */
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
     padding: 20px;
-    padding-bottom: 50px;
-    margin-top: calc(60px + 25px);
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
@@ -203,11 +200,8 @@ body {
 
 /* Фильтр */
 .filter-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    pointer-events: none;
+    text-align: right;
+    padding: 20px;
 }
 
 .filter-btn {
