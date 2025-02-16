@@ -134,7 +134,7 @@ const resetBtn = document.querySelector('.reset-btn');
 const genreTags = document.querySelectorAll('.genre-tag input');
 const searchInput = document.querySelector('.search-input');
 
-// Открытие/закрытие экрана фильтров
+// Открытие экрана фильтров
 filterBtn.addEventListener('click', () => {
     filterScreen.classList.add('show');
 });
@@ -186,4 +186,29 @@ function filterByGenres(genres) {
             }, 300);
         }
     });
-} 
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const filterBtn = document.querySelector('.filter-btn');
+    const filterScreen = document.querySelector('.filter-screen');
+    const closeBtn = document.querySelector('.close-btn');
+    const overlay = document.querySelector('.overlay');
+
+    // Открытие экрана фильтров
+    filterBtn.addEventListener('click', () => {
+        filterScreen.classList.add('show');
+        overlay.classList.add('show');
+    });
+
+    // Закрытие экрана фильтров
+    closeBtn.addEventListener('click', () => {
+        filterScreen.classList.remove('show');
+        overlay.classList.remove('show');
+    });
+
+    // Закрытие экрана фильтров при клике на затемнение
+    overlay.addEventListener('click', () => {
+        filterScreen.classList.remove('show');
+        overlay.classList.remove('show');
+    });
+}); 
