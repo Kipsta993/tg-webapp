@@ -5,12 +5,21 @@ document.querySelector('.search-btn').addEventListener('click', function() {
 // Функция для фильтрации манги
 function filterManga(searchText) {
     const mangaCards = document.querySelectorAll('.manga-card');
-    const searchQuery = searchText.toLowerCase();
+    const searchQuery = searchText.toLowerCase().trim();
+    
+    // Если поисковая строка пуста, показываем все карточки
+    if (searchQuery === '') {
+        mangaCards.forEach(card => {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+        });
+        return; // Прерываем выполнение функции
+    }
     
     mangaCards.forEach(card => {
         const title = card.querySelector('h3').textContent.toLowerCase();
         
-        // Проверяем совпадение только в названии
         if (title.includes(searchQuery)) {
             card.style.display = 'block';
             card.style.opacity = '1';
@@ -28,14 +37,12 @@ function filterManga(searchText) {
 // Обработчик ввода в поисковую строку
 document.querySelector('.search-input').addEventListener('input', function(e) {
     filterManga(e.target.value);
-    
-    // Если поле поиска пустое, показываем все карточки
-    if (e.target.value === '') {
-        document.querySelectorAll('.manga-card').forEach(card => {
-            card.style.display = 'block';
-            card.style.opacity = '1';
-            card.style.transform = 'scale(1)';
-        });
+});
+
+// Добавляем обработчик события blur (потеря фокуса)
+document.querySelector('.search-input').addEventListener('blur', function(e) {
+    if (!e.target.value.trim()) {
+        filterManga('');
     }
 });
 
