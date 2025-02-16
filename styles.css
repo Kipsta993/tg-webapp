@@ -94,79 +94,6 @@ body {
     font-size: 12px;
 }
 
-.search-container {
-    position: sticky;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    background: linear-gradient(to bottom, #1a1a1a 50%, transparent);
-    padding: 10px 20px;
-    pointer-events: none;
-}
-
-.search-box {
-    position: relative;
-    width: 100%;
-    margin-bottom: 20px;
-    box-sizing: border-box;
-    max-width: 100%; /* Добавляем максимальную ширину */
-}
-
-.search-input {
-    width: 100%;
-    max-width: 100%; /* Добавляем максимальную ширину */
-    padding: 12px 40px 12px 16px;
-    border: none;
-    border-radius: 8px;
-    background: #2a2a2a;
-    color: #fff;
-    font-size: 14px;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    box-sizing: border-box;
-}
-
-.search-input::placeholder {
-    color: #888;
-}
-
-.search-icon {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-    pointer-events: none;
-}
-
-.search-btn {
-    position: absolute;
-    right: 0;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
-    background: #2a2a2a;
-    cursor: pointer;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.search-btn svg {
-    color: #fff;
-}
-
-.search-input:focus + .search-btn {
-    background: #2a2a2a;
-    pointer-events: none;
-}
-
 /* Медиа-запрос для мобильных устройств */
 @media screen and (max-width: 768px) {
     .manga-grid {
@@ -194,13 +121,6 @@ body {
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
         padding: 8px;
-    }
-}
-
-/* Оставляем медиа-запрос для поиска */
-@media screen and (max-width: 768px) {
-    .search-input:focus {
-        width: 300px;
     }
 }
 
@@ -352,16 +272,12 @@ body {
 }
 
 .filter-header {
-    position: fixed; /* Меняем с sticky на fixed */
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     padding: 20px;
     border-bottom: 1px solid #2a2a2a;
     background: #1a1a1a;
     z-index: 10;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .close-btn {
@@ -449,4 +365,33 @@ body {
     .filter-screen {
         width: 100%;
     }
+}
+
+/* Оставляем только стили для поиска в выдвижном меню */
+.filter-header .search-box {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.filter-header .search-input {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #2a2a2a;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.filter-header .search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
 }
