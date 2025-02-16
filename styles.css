@@ -376,3 +376,40 @@ body {
         height: auto;
     }
 }
+
+.filter-header .search-box {
+    pointer-events: all;
+    position: relative;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.filter-header .main-search-input {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 25px;
+    padding: 0 20px;
+    font-size: 16px;
+    color: #fff;
+    background: #2a2a2a;
+    transition: all 0.3s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.filter-header .main-search-input::placeholder {
+    color: #888;
+}
+
+.filter-header .search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+}
