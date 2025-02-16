@@ -166,6 +166,10 @@ body {
         padding: 10px;
     }
     
+    .manga-image {
+        aspect-ratio: 2/2.7; /* Уменьшаем высоту изображения */
+    }
+    
     .manga-type {
         font-size: 10px;
         padding: 3px 6px;
