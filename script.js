@@ -37,38 +37,11 @@ document.querySelector('.search-input').addEventListener('input', function(e) {
     }
 });
 
-function updateMangaGridMargin() {
-    const searchContainer = document.querySelector('.search-container');
-    const mangaGrid = document.querySelector('.manga-grid');
-    const searchHeight = searchContainer.offsetHeight;
-    const searchBottom = searchContainer.getBoundingClientRect().bottom;
-    
-    document.documentElement.style.setProperty('--search-height', `${searchHeight}px`);
-    
-    const gridTop = mangaGrid.getBoundingClientRect().top;
-    if (searchBottom + 25 > gridTop) {
-        const newMargin = searchBottom + 50;
-        mangaGrid.style.marginTop = `${newMargin}px`;
-    }
-}
-
-window.addEventListener('load', updateMangaGridMargin);
-window.addEventListener('resize', updateMangaGridMargin);
-
-document.querySelector('.search-input').addEventListener('focus', function() {
-    setTimeout(updateMangaGridMargin, 300);
-});
-
-document.querySelector('.search-input').addEventListener('blur', function() {
-    setTimeout(updateMangaGridMargin, 300);
-});
-
 // Добавляем поддержку скролла для Telegram WebApp
 if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
     window.Telegram.WebApp.expand();
     
-    // Отключаем стандартное поведение скролла
     document.addEventListener('touchmove', function(e) {
         e.stopPropagation();
     }, { passive: true });
@@ -81,108 +54,4 @@ function setViewportHeight() {
 }
 
 window.addEventListener('resize', setViewportHeight);
-setViewportHeight();
-
-// Периодическая проверка видимости карточек
-setInterval(checkCardsVisibility, 1000);
-
-// Обработчик для кнопки жанров
-const genreDropdownBtn = document.querySelector('.genre-dropdown-btn');
-const genreDropdown = document.querySelector('.genre-dropdown');
-
-genreDropdownBtn.addEventListener('click', () => {
-    genreDropdown.classList.toggle('show');
-});
-
-// Закрываем меню при клике вне его
-document.addEventListener('click', (e) => {
-    if (!genreDropdownBtn.contains(e.target) && !genreDropdown.contains(e.target)) {
-        genreDropdown.classList.remove('show');
-    }
-});
-
-const filterBtn = document.querySelector('.filter-btn');
-const filterScreen = document.querySelector('.filter-screen');
-const closeBtn = document.querySelector('.close-btn');
-const resetBtn = document.querySelector('.reset-btn');
-const genreTags = document.querySelectorAll('.genre-tag input');
-const searchInput = document.querySelector('.search-input');
-
-// Открытие экрана фильтров
-filterBtn.addEventListener('click', () => {
-    filterScreen.classList.add('show');
-});
-
-closeBtn.addEventListener('click', () => {
-    filterScreen.classList.remove('show');
-});
-
-// Сброс фильтров
-resetBtn.addEventListener('click', () => {
-    genreTags.forEach(tag => tag.checked = false);
-    searchInput.value = '';
-    filterManga('');
-});
-
-// Фильтрация по жанрам
-genreTags.forEach(tag => {
-    tag.addEventListener('change', () => {
-        const selectedGenres = Array.from(genreTags)
-            .filter(t => t.checked)
-            .map(t => t.nextElementSibling.textContent);
-        
-        filterByGenres(selectedGenres);
-    });
-});
-
-function filterByGenres(genres) {
-    const mangaCards = document.querySelectorAll('.manga-card');
-    
-    mangaCards.forEach(card => {
-        if (genres.length === 0) {
-            card.style.display = 'block';
-            card.style.opacity = '1';
-            return;
-        }
-        
-        const cardGenres = card.querySelector('.manga-type').textContent;
-        const shouldShow = genres.every(genre => cardGenres.includes(genre));
-        
-        if (shouldShow) {
-            card.style.display = 'block';
-            card.style.opacity = '1';
-            card.style.transform = 'scale(1)';
-        } else {
-            card.style.opacity = '0';
-            card.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                card.style.display = 'none';
-            }, 300);
-        }
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const filterBtn = document.querySelector('.filter-btn');
-    const filterScreen = document.querySelector('.filter-screen');
-    const closeBtn = document.querySelector('.close-btn');
-    const overlay = document.querySelector('.overlay');
-
-    // Открытие экрана фильтров
-    filterBtn.addEventListener('click', () => {
-        filterScreen.classList.add('show');
-        overlay.classList.add('show');
-    });
-
-    // Закрытие экрана фильтров
-    closeBtn.addEventListener('click', () => {
-        filterScreen.classList.remove('show');
-        overlay.classList.remove('show');
-    });
-
-    // Закрытие экрана фильтров при клике на затемнение
-    overlay.addEventListener('click', () => {
-        filterScreen.classList.remove('show');
-        overlay.classList.remove('show');
-    });
-}); 
+setViewportHeight(); 
