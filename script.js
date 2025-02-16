@@ -94,6 +94,10 @@ if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
     window.Telegram.WebApp.expand();
     
+    // Для всех устройств открываем в полный экран
+    window.Telegram.WebApp.setViewportHeight(100); // Устанавливаем высоту 100%
+    window.Telegram.WebApp.expand(); // Расширяем окно
+    
     // Отключаем стандартное поведение скролла
     document.addEventListener('touchmove', function(e) {
         e.stopPropagation();
