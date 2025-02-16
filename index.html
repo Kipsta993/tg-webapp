@@ -18,25 +18,23 @@
         </button>
     </div>
 
-    <div class="filter-sidebar">
-        <div class="sidebar-header">
-            <h2>Фильтры</h2>
+    <div class="filter-screen">
+        <div class="filter-header">
             <button class="close-btn">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M18 6L6 18M6 6l12 12"/>
                 </svg>
             </button>
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Поиск манги...">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </div>
         </div>
-        
-        <div class="search-box">
-            <input type="text" class="search-input" placeholder="Поиск манги...">
-            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-        </div>
-        
-        <div class="filter-section">
+
+        <div class="filter-content">
             <h3>Жанры</h3>
             <div class="genre-tags">
                 <label class="genre-tag">
@@ -60,9 +58,8 @@
                     <span>ГГ не человек</span>
                 </label>
             </div>
+            <button class="reset-btn">Сбросить фильтры</button>
         </div>
-        
-        <button class="reset-btn">Сбросить фильтры</button>
     </div>
 
     <div class="overlay"></div>
