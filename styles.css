@@ -202,11 +202,12 @@ body {
 
 /* Фильтр */
 .filter-container {
-    float: right;
-    margin-top: 20px;
-    margin-right: 20px;
+    position: relative;
+    top: 20px;
+    right: 20px;
     z-index: 1000;
     pointer-events: none;
+    float: right;
 }
 
 .filter-btn {
