@@ -394,7 +394,7 @@ body {
 }
 
 .close-btn {
-    position: fixed;
+    position: absolute;
     left: 20px;
     bottom: 20px;
     background: #2a2a2a;
