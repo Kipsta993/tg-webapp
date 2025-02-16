@@ -285,6 +285,8 @@ body {
 
 .genre-tag {
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent; /* Убираем синее выделение на iOS */
+    user-select: none; /* Запрещаем выделение текста */
 }
 
 .genre-tag span {
@@ -295,6 +297,7 @@ body {
     color: #888;
     font-size: 14px;
     transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent; /* Для надежности добавляем и сюда */
 }
 
 .genre-tag input:checked + span {
