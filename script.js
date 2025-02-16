@@ -110,4 +110,19 @@ window.addEventListener('resize', setViewportHeight);
 setViewportHeight();
 
 // Периодическая проверка видимости карточек
-setInterval(checkCardsVisibility, 1000); 
+setInterval(checkCardsVisibility, 1000);
+
+// Обработчик для кнопки жанров
+const genreDropdownBtn = document.querySelector('.genre-dropdown-btn');
+const genreDropdown = document.querySelector('.genre-dropdown');
+
+genreDropdownBtn.addEventListener('click', () => {
+    genreDropdown.classList.toggle('show');
+});
+
+// Закрываем меню при клике вне его
+document.addEventListener('click', (e) => {
+    if (!genreDropdownBtn.contains(e.target) && !genreDropdown.contains(e.target)) {
+        genreDropdown.classList.remove('show');
+    }
+}); 
