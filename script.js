@@ -24,37 +24,34 @@ function filterManga(searchText) {
     });
 }
 
-// Обработчик ввода в поисковую строку
-document.querySelector('.search-input').addEventListener('input', function(e) {
-    filterManga(e.target.value);
+// Функция для фильтрации по жанрам
+function filterByGenres(genres) {
+    const mangaCards = document.querySelectorAll('.manga-card');
     
-    if (e.target.value === '') {
-        document.querySelectorAll('.manga-card').forEach(card => {
+    mangaCards.forEach(card => {
+        if (genres.length === 0) {
             card.style.display = 'block';
             card.style.opacity = '1';
             card.style.transform = 'scale(1)';
-        });
-    }
-});
-
-// Добавляем поддержку скролла для Telegram WebApp
-if (window.Telegram && window.Telegram.WebApp) {
-    window.Telegram.WebApp.ready();
-    window.Telegram.WebApp.expand();
-    
-    document.addEventListener('touchmove', function(e) {
-        e.stopPropagation();
-    }, { passive: true });
+            return;
+        }
+        
+        const cardType = card.querySelector('.manga-type').textContent;
+        const shouldShow = genres.every(genre => cardType.includes(genre));
+        
+        if (shouldShow) {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+        } else {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                card.style.display = 'none';
+            }, 300);
+        }
+    });
 }
-
-// Фиксим высоту для iOS
-function setViewportHeight() {
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
-
-window.addEventListener('resize', setViewportHeight);
-setViewportHeight(); 
 
 document.addEventListener('DOMContentLoaded', () => {
     const filterBtn = document.querySelector('.filter-btn');
@@ -64,6 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetBtn = document.querySelector('.reset-btn');
     const genreTags = document.querySelectorAll('.genre-tag input');
     const searchInput = document.querySelector('.search-input');
+
+    // Поиск
+    searchInput.addEventListener('input', (e) => {
+        filterManga(e.target.value);
+    });
 
     // Открытие фильтра
     filterBtn.addEventListener('click', () => {
@@ -100,3 +102,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// Поддержка Telegram WebApp
+if (window.Telegram && window.Telegram.WebApp) {
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+    
+    document.addEventListener('touchmove', function(e) {
+        e.stopPropagation();
+    }, { passive: true });
+}
+
+// Фикс высоты для iOS
+function setViewportHeight() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+window.addEventListener('resize', setViewportHeight);
+setViewportHeight();
