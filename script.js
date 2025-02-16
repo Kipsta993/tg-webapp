@@ -29,17 +29,12 @@ function checkCardsVisibility() {
 // Функция для фильтрации манги
 function filterManga(searchText) {
     const mangaCards = document.querySelectorAll('.manga-card');
-    const searchQuery = searchText.toLowerCase().trim();
-    
-    // Всегда показываем все карточки если строка пустая
-    if (!searchQuery) {
-        showAllCards();
-        return;
-    }
+    const searchQuery = searchText.toLowerCase();
     
     mangaCards.forEach(card => {
         const title = card.querySelector('h3').textContent.toLowerCase();
         
+        // Проверяем совпадение только в названии
         if (title.includes(searchQuery)) {
             card.style.display = 'block';
             card.style.opacity = '1';
@@ -49,32 +44,22 @@ function filterManga(searchText) {
             card.style.transform = 'scale(0.8)';
             setTimeout(() => {
                 card.style.display = 'none';
-                checkCardsVisibility(); // Проверяем после скрытия
             }, 300);
         }
     });
 }
 
 // Обработчик ввода в поисковую строку
-let searchTimeout;
 document.querySelector('.search-input').addEventListener('input', function(e) {
-    clearTimeout(searchTimeout);
+    filterManga(e.target.value);
     
-    searchTimeout = setTimeout(() => {
-        const value = e.target.value;
-        if (!value || value.trim() === '') {
-            showAllCards();
-        } else {
-            filterManga(value);
-        }
-        checkCardsVisibility(); // Дополнительная проверка
-    }, 100);
-});
-
-// Добавляем обработчик события blur (потеря фокуса)
-document.querySelector('.search-input').addEventListener('blur', function(e) {
-    if (!e.target.value.trim()) {
-        filterManga('');
+    // Если поле поиска пустое, показываем все карточки
+    if (e.target.value === '') {
+        document.querySelectorAll('.manga-card').forEach(card => {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+        });
     }
 });
 
