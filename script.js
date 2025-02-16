@@ -60,7 +60,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Поиск
     searchInput.addEventListener('input', (e) => {
-        filterManga(e.target.value);
+        if (e.target.value === '') {
+            // Показываем все карточки, если поле пустое
+            document.querySelectorAll('.manga-card').forEach(card => {
+                card.style.display = 'block';
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1)';
+            });
+        } else {
+            filterManga(e.target.value);
+        }
     });
 
     // Открытие фильтра
