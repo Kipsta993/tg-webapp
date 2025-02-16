@@ -228,6 +228,59 @@ body {
     }
 }
 
+.search-container {
+    position: sticky;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    background: linear-gradient(to bottom, #1a1a1a 50%, transparent);
+    padding: 10px 20px;
+    pointer-events: none;
+}
+
+.search-box {
+    pointer-events: all;
+    position: relative;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.main-search-input {
+    position: absolute;
+    right: 0;
+    width: 50px;
+    height: 100%;
+    border: none;
+    border-radius: 25px;
+    padding: 0 20px;
+    font-size: 16px;
+    color: #fff;
+    background: #2a2a2a;
+    transition: all 0.3s ease, width 0.3s ease;
+    opacity: 0;
+    cursor: pointer;
+    outline: none;
+}
+
+.main-search-input::placeholder {
+    color: #888;
+}
+
+.main-search-input:focus {
+    width: 300px;
+    opacity: 1;
+    cursor: text;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 25px;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Фильтр */
 .filter-container {
     position: fixed;
     top: 20px;
@@ -264,7 +317,6 @@ body {
     transition: right 0.3s ease;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Предотвращаем скролл основного контейнера */
 }
 
 .filter-screen.show {
@@ -272,12 +324,8 @@ body {
 }
 
 .filter-header {
-    position: sticky;
-    top: 0;
     padding: 20px;
     border-bottom: 1px solid #2a2a2a;
-    background: #1a1a1a;
-    z-index: 10;
 }
 
 .close-btn {
@@ -286,6 +334,34 @@ body {
     color: #fff;
     cursor: pointer;
     margin-bottom: 20px;
+}
+
+.filter-search-box {
+    position: relative;
+    width: 100%;
+}
+
+.filter-search-input {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #2a2a2a;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+}
+
+.filter-search-input::placeholder {
+    color: #888;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
 }
 
 .filter-content {
@@ -365,33 +441,15 @@ body {
     .filter-screen {
         width: 100%;
     }
-}
 
-/* Оставляем только стили для поиска в выдвижном меню */
-.filter-header .search-box {
-    position: relative;
-    width: 100%;
-    margin-bottom: 20px;
-}
+    .main-search-input:focus {
+        width: 300px;
+    }
 
-.filter-header .search-input {
-    width: 100%;
-    padding: 12px 40px 12px 16px;
-    border: none;
-    border-radius: 8px;
-    background: #2a2a2a;
-    color: #fff;
-    font-size: 14px;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-}
-
-.filter-header .search-icon {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-    pointer-events: none;
+    body {
+        overflow-y: auto !important;
+        overscroll-behavior-y: contain;
+        position: relative;
+        height: auto;
+    }
 }
