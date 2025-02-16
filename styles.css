@@ -34,10 +34,10 @@ body {
 .manga-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px; /* Отступ только между карточками */
+    gap: 15px; /* Отступ между карточками */
     padding: 0; /* Убираем внутренние отступы */
-    max-width: 920px;
-    margin: 0 auto; /* Убираем отступы сверху и снизу */
+    max-width: 700px; /* Уменьшаем максимальную ширину контейнера */
+    margin: 0 auto; /* Центрируем контейнер */
 }
 
 .manga-card {
@@ -107,8 +107,10 @@ body {
 /* Медиа-запрос для мобильных устройств */
 @media screen and (max-width: 768px) {
     .manga-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 в ряд на мобильных устройствах */
         gap: 8px;
         padding: 10px;
+        max-width: 100%; /* На мобильных устройствах контейнер занимает всю ширину */
     }
     
     .manga-image {
@@ -131,6 +133,12 @@ body {
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
         padding: 8px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .manga-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 в ряд на очень маленьких экранах */
     }
 }
 
