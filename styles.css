@@ -34,9 +34,9 @@ body {
 .manga-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    padding: 20px;
-    max-width: 900px;
+    gap: 10px;
+    padding: 15px;
+    max-width: 920px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -45,7 +45,8 @@ body {
     background: #2a2a2a;
     border-radius: 8px;
     overflow: hidden;
-    width: 100%;
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 1;
@@ -69,8 +70,8 @@ body {
 
 .manga-type {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 7px;
+    left: 7px;
     background: rgba(0, 0, 0, 0.7);
     color: #fff;
     padding: 4px 8px;
@@ -248,12 +249,15 @@ body {
 
 .filter-header-top {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end; /* Теперь только для кнопки сброса */
     align-items: center;
     margin-bottom: 20px;
 }
 
 .close-btn {
+    position: fixed; /* Фиксируем позицию */
+    left: 20px; /* Отступ слева */
+    bottom: 20px; /* Отступ снизу */
     background: #2a2a2a;
     border: none;
     color: #fff;
@@ -266,6 +270,7 @@ body {
     justify-content: center;
     transition: all 0.3s ease;
     margin: 0;
+    z-index: 2001; /* Чтобы кнопка была над контентом фильтра */
 }
 
 .close-btn:hover {
