@@ -200,7 +200,8 @@ body {
 
 /* Фильтр */
 .filter-container {
-    text-align: right;
+    display: flex;
+    justify-content: flex-end; /* Прижимаем кнопку вправо */
     padding: 20px;
 }
 
