@@ -262,7 +262,7 @@ body {
 
 .filter-content {
     padding: 20px;
-    padding-top: 90px; /* Добавляем отступ сверху для компенсации fixed header */
+    padding-top: 20px; /* Уменьшаем отступ сверху с 90px до 20px */
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
