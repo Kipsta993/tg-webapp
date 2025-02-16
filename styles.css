@@ -393,8 +393,7 @@ body {
     transform: rotate(180deg);
 }
 
-/* Оставляем эти стили */
-.filter-screen.show .close-btn {
+.close-btn {
     position: fixed;
     left: 20px;
     bottom: 20px;
@@ -412,6 +411,6 @@ body {
     z-index: 2001;
 }
 
-.filter-screen.show .close-btn:hover {
+.close-btn:hover {
     background: #3a3a3a;
 }
