@@ -202,11 +202,13 @@ body {
 
 /* Фильтр */
 .filter-container {
-    position: fixed;
+    position: sticky;
     top: 20px;
     right: 20px;
     z-index: 1000;
     pointer-events: none;
+    align-self: flex-start; /* Добавляем для правильного позиционирования */
+    margin-left: auto; /* Прижимаем к правому краю */
 }
 
 .filter-btn {
@@ -222,6 +224,7 @@ body {
     color: #fff;
     transition: all 0.3s ease;
     pointer-events: auto;
+    position: relative; /* Добавляем для корректной работы в sticky-контейнере */
 }
 
 .filter-btn:hover {
