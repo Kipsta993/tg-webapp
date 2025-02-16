@@ -95,13 +95,20 @@ body {
 }
 
 .search-container {
-    position: fixed;
+    position: sticky;
     top: 20px;
     right: 20px;
     z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    background: linear-gradient(to bottom, #1a1a1a 50%, transparent);
+    padding: 10px 20px;
+    pointer-events: none;
 }
 
 .search-box {
+    pointer-events: all;
     position: relative;
     height: 50px;
     display: flex;
@@ -167,7 +174,7 @@ body {
     }
     
     .manga-image {
-        aspect-ratio: 2/2.7; /* Уменьшаем высоту изображения */
+        height: calc(100% - 30px); /* Уменьшаем высоту на 30px */
     }
     
     .manga-type {
