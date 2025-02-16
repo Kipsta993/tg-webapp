@@ -365,3 +365,34 @@ body {
     color: #888;
     pointer-events: none;
 }
+
+.filter-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.reset-btn {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.reset-btn:hover {
+    color: #fff;
+}
+
+.reset-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.reset-btn:hover svg {
+    transform: rotate(180deg);
+}
