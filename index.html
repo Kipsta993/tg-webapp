@@ -70,13 +70,13 @@
     </div>
     
     <div class="no-results" style="display: none;">
-        <svg class="broken-search" xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke-width="1.5">
-            <!-- Основное кольцо (цельная часть) -->
-            <path d="M11 3A8 8 0 0 1 11 19A8 8 0 0 1 3 11A8 8 0 0 1 11 3" 
-                  stroke="currentColor" 
-                  stroke-width="2" 
-                  stroke-linecap="round"
-                  stroke-dasharray="37.5 12.5"/>
+        <svg class="broken-search" xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none">
+            <!-- Основной круг с разрывом -->
+            <circle cx="11" cy="11" r="8" 
+                    stroke="currentColor" 
+                    stroke-width="2" 
+                    stroke-linecap="round"
+                    stroke-dasharray="44 6"/>
             
             <!-- Рукоятка -->
             <line x1="16.5" y1="16.5" x2="21" y2="21" 
@@ -84,21 +84,12 @@
                   stroke-width="2" 
                   stroke-linecap="round"/>
             
-            <!-- Осколки -->
-            <path d="M17 7.5l1.5 -1
-                     M18 9l2 -0.5
-                     M18.5 11l1.5 0.5" 
+            <!-- Трещины -->
+            <path d="M15 8l-2 2
+                     M16 9l-2.5 2.5" 
                   stroke="currentColor" 
                   stroke-width="1.5" 
-                  stroke-linecap="round" 
-                  opacity="0.7"/>
-            
-            <!-- Блик -->
-            <path d="M7.5 7Q9 5.5 11 6" 
-                  stroke="white" 
-                  stroke-width="1" 
-                  stroke-linecap="round" 
-                  opacity="0.4"/>
+                  stroke-linecap="round"/>
         </svg>
         <p>Манга не найдена</p>
     </div>
