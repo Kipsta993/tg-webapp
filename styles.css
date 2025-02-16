@@ -254,28 +254,6 @@ body {
     margin-bottom: 20px;
 }
 
-.close-btn {
-    position: fixed;
-    left: 20px;
-    bottom: 20px;
-    background: #2a2a2a;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    z-index: 2001;
-}
-
-.close-btn:hover {
-    background: #3a3a3a;
-}
-
 .filter-header-top h2 {
     color: #fff;
     font-size: 18px;
@@ -413,4 +391,27 @@ body {
 
 .filter-header .reset-btn:hover svg {
     transform: rotate(180deg);
+}
+
+/* И добавляем их сюда */
+.filter-screen.show .close-btn {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    background: #2a2a2a;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 2001;
+}
+
+.filter-screen.show .close-btn:hover {
+    background: #3a3a3a;
 }
