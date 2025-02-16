@@ -7,8 +7,10 @@ function filterManga(searchText) {
     
     mangaCards.forEach(card => {
         const title = card.querySelector('h3').textContent.toLowerCase();
+        const isVisible = card.style.display !== 'none';
         
-        if (title.includes(searchQuery)) {
+        // Проверяем только видимые карточки (прошедшие фильтр по жанрам)
+        if (isVisible && title.includes(searchQuery)) {
             card.style.display = 'block';
             card.style.opacity = '1';
             card.style.transform = 'scale(1)';
@@ -22,29 +24,21 @@ function filterManga(searchText) {
         }
     });
 
-    // Показываем/скрываем сообщение о ненайденных результатах
-    if (!hasResults && searchQuery !== '') {
-        noResults.style.display = 'flex';
-        setTimeout(() => {
-            noResults.classList.add('show');
-        }, 10);
-    } else {
-        noResults.classList.remove('show');
-        setTimeout(() => {
-            noResults.style.display = 'none';
-        }, 300);
-    }
+    updateNoResultsMessage(hasResults, searchQuery !== '');
 }
 
 // Функция для фильтрации по жанрам
 function filterByGenres(genres) {
     const mangaCards = document.querySelectorAll('.manga-card');
+    const searchInput = document.querySelector('.search-input');
+    let hasResults = false;
     
     mangaCards.forEach(card => {
         if (genres.length === 0) {
             card.style.display = 'block';
             card.style.opacity = '1';
             card.style.transform = 'scale(1)';
+            hasResults = true;
             return;
         }
         
@@ -55,6 +49,7 @@ function filterByGenres(genres) {
             card.style.display = 'block';
             card.style.opacity = '1';
             card.style.transform = 'scale(1)';
+            hasResults = true;
         } else {
             card.style.opacity = '0';
             card.style.transform = 'scale(0.8)';
@@ -63,6 +58,30 @@ function filterByGenres(genres) {
             }, 300);
         }
     });
+
+    // После фильтрации по жанрам применяем текущий поисковый запрос
+    if (searchInput.value) {
+        filterManga(searchInput.value);
+    } else {
+        updateNoResultsMessage(hasResults, genres.length > 0);
+    }
+}
+
+// Общая функция для обновления сообщения о ненайденных результатах
+function updateNoResultsMessage(hasResults, isFiltering) {
+    const noResults = document.querySelector('.no-results');
+    
+    if (!hasResults && isFiltering) {
+        noResults.style.display = 'flex';
+        setTimeout(() => {
+            noResults.classList.add('show');
+        }, 10);
+    } else {
+        noResults.classList.remove('show');
+        setTimeout(() => {
+            noResults.style.display = 'none';
+        }, 300);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -76,16 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Поиск
     searchInput.addEventListener('input', (e) => {
-        if (e.target.value === '') {
-            // Показываем все карточки, если поле пустое
-            document.querySelectorAll('.manga-card').forEach(card => {
-                card.style.display = 'block';
-                card.style.opacity = '1';
-                card.style.transform = 'scale(1)';
-            });
-        } else {
-            filterManga(e.target.value);
-        }
+        filterManga(e.target.value);
     });
 
     // Открытие фильтра
@@ -110,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resetBtn.addEventListener('click', () => {
         genreTags.forEach(tag => tag.checked = false);
         searchInput.value = '';
-        filterManga('');
+        filterByGenres([]);
     });
 
     // Обработка жанров
