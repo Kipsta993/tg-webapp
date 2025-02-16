@@ -128,30 +128,25 @@ document.addEventListener('click', (e) => {
 });
 
 const filterBtn = document.querySelector('.filter-btn');
-const filterSidebar = document.querySelector('.filter-sidebar');
+const filterScreen = document.querySelector('.filter-screen');
 const closeBtn = document.querySelector('.close-btn');
-const overlay = document.querySelector('.overlay');
 const resetBtn = document.querySelector('.reset-btn');
 const genreTags = document.querySelectorAll('.genre-tag input');
+const searchInput = document.querySelector('.search-input');
 
-// Открытие/закрытие сайдбара
+// Открытие/закрытие экрана фильтров
 filterBtn.addEventListener('click', () => {
-    filterSidebar.classList.add('show');
-    overlay.classList.add('show');
+    filterScreen.classList.add('show');
 });
 
-function closeSidebar() {
-    filterSidebar.classList.remove('show');
-    overlay.classList.remove('show');
-}
-
-closeBtn.addEventListener('click', closeSidebar);
-overlay.addEventListener('click', closeSidebar);
+closeBtn.addEventListener('click', () => {
+    filterScreen.classList.remove('show');
+});
 
 // Сброс фильтров
 resetBtn.addEventListener('click', () => {
     genreTags.forEach(tag => tag.checked = false);
-    document.querySelector('.search-input').value = '';
+    searchInput.value = '';
     filterManga('');
 });
 
