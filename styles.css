@@ -216,9 +216,8 @@ body {
 .filter-btn {
     background: #2a2a2a;
     border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    padding: 10px 20px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -226,10 +225,17 @@ body {
     color: #fff;
     transition: all 0.3s ease;
     pointer-events: auto;
+    gap: 12px; /* Увеличиваем отступ между текстом и иконкой */
+    font-size: 14px;
 }
 
 .filter-btn:hover {
     background: #3a3a3a;
+}
+
+.filter-btn svg {
+    width: 20px;
+    height: 20px;
 }
 
 .filter-screen {
