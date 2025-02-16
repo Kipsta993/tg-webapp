@@ -48,7 +48,7 @@ body {
 .manga-image {
     position: relative;
     width: 100%;
-    aspect-ratio: 2/3;
+    aspect-ratio: 1/1;
 }
 
 .manga-image img {
@@ -69,9 +69,9 @@ body {
 }
 
 .manga-card h3 {
-    padding: 10px;
+    padding: 8px;
     margin: 0;
-    font-size: 14px;
+    font-size: 12px;
     color: #fff;
     text-align: center;
     white-space: nowrap;
@@ -168,8 +168,7 @@ body {
 /* Медиа-запрос для мобильных устройств */
 @media screen and (max-width: 768px) {
     .manga-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        gap: 8px;
         padding: 10px;
     }
     
@@ -183,8 +182,8 @@ body {
     }
     
     .manga-card h3 {
-        font-size: 12px;
-        padding: 8px;
+        font-size: 11px;
+        padding: 6px;
     }
 }
 
