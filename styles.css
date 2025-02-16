@@ -129,6 +129,7 @@ body {
     transition: all 0.3s ease, width 0.3s ease;
     opacity: 0;
     cursor: pointer;
+    outline: none;
 }
 
 .search-input::placeholder {
@@ -139,6 +140,10 @@ body {
     width: 300px;
     opacity: 1;
     cursor: text;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 25px;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
 }
 
 .search-btn {
