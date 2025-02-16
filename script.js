@@ -2,6 +2,8 @@
 function filterManga(searchText) {
     const mangaCards = document.querySelectorAll('.manga-card');
     const searchQuery = searchText.toLowerCase();
+    const noResults = document.querySelector('.no-results');
+    let hasResults = false;
     
     mangaCards.forEach(card => {
         const title = card.querySelector('h3').textContent.toLowerCase();
@@ -10,6 +12,7 @@ function filterManga(searchText) {
             card.style.display = 'block';
             card.style.opacity = '1';
             card.style.transform = 'scale(1)';
+            hasResults = true;
         } else {
             card.style.opacity = '0';
             card.style.transform = 'scale(0.8)';
@@ -18,6 +21,19 @@ function filterManga(searchText) {
             }, 300);
         }
     });
+
+    // Показываем/скрываем сообщение о ненайденных результатах
+    if (!hasResults && searchQuery !== '') {
+        noResults.style.display = 'flex';
+        setTimeout(() => {
+            noResults.classList.add('show');
+        }, 10);
+    } else {
+        noResults.classList.remove('show');
+        setTimeout(() => {
+            noResults.style.display = 'none';
+        }, 300);
+    }
 }
 
 // Функция для фильтрации по жанрам
