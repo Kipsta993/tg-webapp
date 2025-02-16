@@ -10,6 +10,7 @@ body {
     min-height: 100vh; /* Минимальная высота на весь экран */
     position: relative;
     -webkit-overflow-scrolling: touch; /* Для плавного скролла на iOS */
+    overflow-y: auto; /* Разрешаем вертикальный скролл */
 }
 
 .manga-container {
@@ -179,14 +180,11 @@ body {
     body {
         overflow-y: auto !important;
         overscroll-behavior-y: contain;
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
+        position: relative; /* Меняем с fixed на relative для скролла */
+        height: auto; /* Позволяем контенту расширяться */
     }
     
     .manga-grid {
-        margin-bottom: 30px; /* Дополнительный отступ для скролла на мобильных */
+        padding-bottom: 50px; /* Отступ снизу для удобства скролла */
     }
 }
