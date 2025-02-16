@@ -249,7 +249,7 @@ body {
 
 .filter-header-top {
     display: flex;
-    justify-content: flex-start; /* Меняем на flex-start */
+    justify-content: space-between; /* Распределяем элементы по краям */
     align-items: center;
     margin-bottom: 20px;
 }
@@ -265,15 +265,15 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 12px;
-    display: flex;
+    display: none; /* Скрываем по умолчанию */
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
     z-index: 2001;
 }
 
-.close-btn:hover {
-    background: #3a3a3a;
+.filter-screen.show .close-btn {
+    display: flex; /* Показываем только когда фильтр открыт */
 }
 
 .filter-header-top h2 {
@@ -400,6 +400,7 @@ body {
     font-size: 14px;
     transition: all 0.3s ease;
     padding: 8px 16px;
+    margin-left: auto; /* Прижимаем к правому краю */
 }
 
 .filter-header .reset-btn:hover {
