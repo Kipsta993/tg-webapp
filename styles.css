@@ -32,6 +32,7 @@ body {
 }
 
 .manga-grid {
+    position: relative; /* Добавляем для правильного позиционирования кнопки */
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
@@ -202,12 +203,11 @@ body {
 
 /* Фильтр */
 .filter-container {
-    position: relative;
+    position: absolute;
     top: 20px;
     right: 20px;
     z-index: 1000;
     pointer-events: none;
-    float: right;
 }
 
 .filter-btn {
