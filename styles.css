@@ -473,3 +473,22 @@ body {
         max-width: 1200px; /* Ограничиваем максимальную ширину */
     }
 }
+
+/* Для мобильных устройств (до 768px) */
+@media (max-width: 768px) {
+    .manga-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 в ряд */
+    }
+    .manga-card {
+        width: calc(100% - 50px); /* Уменьшаем ширину на 50px */
+        height: calc(100% - 50px); /* Уменьшаем высоту на 50px */
+    }
+}
+
+/* Для планшетов и ПК (от 768px) */
+@media (min-width: 768px) {
+    .manga-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 в ряд */
+        max-width: 1200px; /* Ограничиваем максимальную ширину */
+    }
+}
