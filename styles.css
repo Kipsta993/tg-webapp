@@ -480,8 +480,8 @@ body {
         grid-template-columns: repeat(3, 1fr); /* 3 в ряд */
     }
     .manga-card {
-        width: calc(100% - 50px); /* Уменьшаем ширину на 50px */
-        height: calc(100% - 50px); /* Уменьшаем высоту на 50px */
+        width: calc(100% - 10px); /* Уменьшаем ширину на 10px */
+        height: calc(100% - 10px); /* Уменьшаем высоту на 10px */
     }
 }
 
