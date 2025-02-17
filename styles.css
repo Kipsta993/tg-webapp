@@ -33,10 +33,9 @@ body {
 
 .manga-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 15px; /* Отступ между карточками */
     padding: 0; /* Убираем внутренние отступы */
-    max-width: 700px; /* Уменьшаем максимальную ширину контейнера */
+    max-width: 100%; /* Контейнер занимает всю ширину */
     margin: 0 auto; /* Центрируем контейнер */
 }
 
@@ -58,7 +57,7 @@ body {
 .manga-image {
     position: relative;
     width: 100%;
-    aspect-ratio: 1/1;
+    aspect-ratio: 1/1; /* Сохраняем квадратное соотношение */
 }
 
 .manga-image img {
@@ -107,10 +106,7 @@ body {
 /* Медиа-запрос для мобильных устройств */
 @media screen and (max-width: 768px) {
     .manga-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 в ряд на мобильных устройствах */
-        gap: 8px;
-        padding: 10px;
-        max-width: 100%; /* На мобильных устройствах контейнер занимает всю ширину */
+        grid-template-columns: repeat(3, 1fr); /* 3 в ряд */
     }
     
     .manga-image {
@@ -468,4 +464,12 @@ body {
     color: transparent;
     z-index: 1000;
     pointer-events: none;
+}
+
+/* Для планшетов и ПК (от 768px) */
+@media screen and (min-width: 768px) {
+    .manga-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 в ряд */
+        max-width: 1200px; /* Ограничиваем максимальную ширину */
+    }
 }
