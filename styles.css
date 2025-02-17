@@ -480,8 +480,11 @@ body {
         grid-template-columns: repeat(3, 1fr); /* 3 в ряд */
     }
     .manga-card {
-        width: calc(100% - 10px); /* Уменьшаем ширину на 10px */
-        height: calc(100% - 10px); /* Уменьшаем высоту на 10px */
+        width: calc(100% - 5px); /* Уменьшаем ширину на 5px */
+        height: calc(100% - 5px); /* Уменьшаем высоту на 5px */
+    }
+    .manga-image {
+        aspect-ratio: 3/4; /* Делаем обложки прямоугольными (3:4) */
     }
 }
 
