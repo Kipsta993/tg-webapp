@@ -1,64 +1,16 @@
-// Добавляем функцию для расчета расстояния Левенштейна
-function levenshteinDistance(a, b) {
-    if (a.length === 0) return b.length;
-    if (b.length === 0) return a.length;
-
-    const matrix = [];
-
-    for (let i = 0; i <= b.length; i++) {
-        matrix[i] = [i];
-    }
-
-    for (let j = 0; j <= a.length; j++) {
-        matrix[0][j] = j;
-    }
-
-    for (let i = 1; i <= b.length; i++) {
-        for (let j = 1; j <= a.length; j++) {
-            if (b.charAt(i - 1) === a.charAt(j - 1)) {
-                matrix[i][j] = matrix[i - 1][j - 1];
-            } else {
-                matrix[i][j] = Math.min(
-                    matrix[i - 1][j - 1] + 1,
-                    matrix[i][j - 1] + 1,
-                    matrix[i - 1][j] + 1
-                );
-            }
-        }
-    }
-
-    return matrix[b.length][a.length];
-}
-
-// Добавляем пороговое значение для расстояния
-const MAX_LEVENSHTEIN_DISTANCE = 3;
-
 // Функция для фильтрации манги
 function filterManga(searchText) {
     const mangaCards = document.querySelectorAll('.manga-card');
-    const searchQuery = searchText.trim().toLowerCase();
+    const searchQuery = searchText.toLowerCase();
     const noResults = document.querySelector('.no-results');
     let hasResults = false;
-    let closestMatch = null;
-    let minDistance = Infinity;
     
-    // Если поиск пустой, показываем все карточки
-    if (searchQuery === '') {
-        mangaCards.forEach(card => {
-            card.style.display = 'block';
-            card.style.opacity = '1';
-            card.style.transform = 'scale(1)';
-        });
-        noResults.classList.remove('show');
-        noResults.style.display = 'none';
-        return;
-    }
-
-    // Сначала ищем точные совпадения
     mangaCards.forEach(card => {
         const title = card.querySelector('h3').textContent.toLowerCase();
+        const isVisible = card.style.display !== 'none';
         
-        if (title.includes(searchQuery)) {
+        // Проверяем только видимые карточки (прошедшие фильтр по жанрам)
+        if (isVisible && title.includes(searchQuery)) {
             card.style.display = 'block';
             card.style.opacity = '1';
             card.style.transform = 'scale(1)';
@@ -71,27 +23,6 @@ function filterManga(searchText) {
             }, 300);
         }
     });
-
-    // Если точных совпадений нет, ищем ближайшее
-    if (!hasResults) {
-        mangaCards.forEach(card => {
-            const title = card.querySelector('h3').textContent.toLowerCase();
-            const distance = levenshteinDistance(searchQuery, title);
-            
-            // Ищем ближайшее совпадение, если расстояние меньше порога
-            if (distance < minDistance && distance <= MAX_LEVENSHTEIN_DISTANCE) {
-                minDistance = distance;
-                closestMatch = card;
-            }
-        });
-
-        if (closestMatch) {
-            closestMatch.style.display = 'block';
-            closestMatch.style.opacity = '1';
-            closestMatch.style.transform = 'scale(1)';
-            hasResults = true;
-        }
-    }
 
     updateNoResultsMessage(hasResults, searchQuery !== '');
 }
@@ -112,7 +43,7 @@ function filterByGenres(genres) {
         }
         
         const cardType = card.querySelector('.manga-type').textContent;
-        const shouldShow = genres.some(genre => cardType.includes(genre));
+        const shouldShow = genres.every(genre => cardType.includes(genre));
         
         if (shouldShow) {
             card.style.display = 'block';
@@ -161,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetBtn = document.querySelector('.reset-btn');
     const genreTags = document.querySelectorAll('.genre-tag input');
     const searchInput = document.querySelector('.search-input');
+    const mangaFeed = document.querySelector('.manga-feed');
 
     // Поиск
     searchInput.addEventListener('input', (e) => {
@@ -201,6 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
             filterByGenres(selectedGenres);
         });
     });
+
+    mangaFeed.style.overflowY = 'auto'; // Включаем прокрутку
 });
 
 // Поддержка Telegram WebApp
