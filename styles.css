@@ -450,22 +450,6 @@ body {
     color: #666;
 }
 
-/* Добавляем стили для текста "Stories Nexar's" */
-.header-title {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 24px;
-    font-weight: 900;
-    background: linear-gradient(90deg, #ff7e5f, #feb47b, #ffcc99, #feb47b, #ff7e5f);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-    z-index: 1000;
-    pointer-events: none;
-}
-
 /* Для планшетов и ПК (от 768px) */
 @media screen and (min-width: 768px) {
     .manga-grid {
@@ -650,4 +634,33 @@ body {
 
 .close-viewer-btn:hover {
     background: rgba(0, 0, 0, 0.8);
+}
+
+/* Удаляем стили для header-title */
+.header-title {
+    display: none;
+}
+
+/* Добавляем стили для иконки пользователя */
+.user-icon {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    background: #2a2a2a;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.user-icon svg {
+    color: #fff;
+}
+
+.user-icon:hover {
+    background: #3a3a3a;
 }
