@@ -186,11 +186,13 @@ function openMangaViewer(images) {
 
 // Обработка клика на обложку Blue Lock
 document.querySelector('.manga-card').addEventListener('click', () => {
-    const images = [
-        'Ch.001 - Dream/1.jpg',
-        'Ch.001 - Dream/2.jpg',
-        'Ch.001 - Dream/3.jpg',
-        // Добавьте остальные фотки главы
-    ];
+    const images = [];
+    for (let i = 1; i <= 9; i++) {
+        images.push(`Ch.001 - Dream/0${i}.jpg`);
+    }
+    // Добавляем остальные фотки, если они есть
+    for (let i = 10; i <= 20; i++) { // Предположим, что фоток до 20
+        images.push(`Ch.001 - Dream/${i}.jpg`);
+    }
     openMangaViewer(images);
 });
