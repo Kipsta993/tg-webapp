@@ -155,3 +155,42 @@ function setViewportHeight() {
 
 window.addEventListener('resize', setViewportHeight);
 setViewportHeight();
+
+// Функция для открытия просмотра фоток
+function openMangaViewer(images) {
+    const mangaViewer = document.querySelector('.manga-viewer');
+    const mangaViewerImage = document.querySelector('.manga-viewer-image');
+    let currentIndex = 0;
+
+    // Показываем первую фотку
+    mangaViewerImage.src = images[currentIndex];
+    mangaViewer.style.display = 'flex';
+
+    // Функция для листания вперед
+    document.querySelector('.next-btn').addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % images.length;
+        mangaViewerImage.src = images[currentIndex];
+    });
+
+    // Функция для листания назад
+    document.querySelector('.prev-btn').addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        mangaViewerImage.src = images[currentIndex];
+    });
+
+    // Закрытие модального окна
+    document.querySelector('.close-viewer-btn').addEventListener('click', () => {
+        mangaViewer.style.display = 'none';
+    });
+}
+
+// Обработка клика на обложку Blue Lock
+document.querySelector('.manga-card').addEventListener('click', () => {
+    const images = [
+        'Ch.001 - Dream/1.jpg',
+        'Ch.001 - Dream/2.jpg',
+        'Ch.001 - Dream/3.jpg',
+        // Добавьте остальные фотки главы
+    ];
+    openMangaViewer(images);
+});
