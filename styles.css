@@ -204,12 +204,8 @@ body {
 
 /* Фильтр */
 .filter-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
     display: flex;
-    justify-content: flex-end; /* Прижимаем кнопку вправо */
+    justify-content: flex-end;
     padding: 20px;
 }
 
@@ -647,8 +643,8 @@ body {
 
 /* Добавляем стили для иконки пользователя */
 .user-icon {
-    position: absolute;
-    top: 20px;
+    position: fixed;
+    top: 20px;  /* Теперь на одном уровне с кнопкой фильтра */
     left: 20px;
     width: 40px;
     height: 40px;
