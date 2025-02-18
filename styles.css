@@ -204,6 +204,10 @@ body {
 
 /* Фильтр */
 .filter-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
     display: flex;
     justify-content: flex-end; /* Прижимаем кнопку вправо */
     padding: 20px;
@@ -643,9 +647,9 @@ body {
 
 /* Добавляем стили для иконки пользователя */
 .user-icon {
-    position: fixed;
-    top: 10px;
-    left: 10px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
     width: 40px;
     height: 40px;
     background: #2a2a2a;
