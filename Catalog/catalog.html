@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог - Manga Translations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap">
+    <link rel="stylesheet" href="catalog.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="content" class="content">
+            <h1>Каталог</h1>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Поиск манги...">
+                    <button id="search-button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            
+            <div class="search-results" id="search-results">
+                <p class="search-info">Введите название манги для поиска</p>
+            </div>
+            
+            <div class="section-title">
+                <h3>Популярные</h3>
+            </div>
+            
+            <div class="manga-grid" id="manga-grid">
+                <!-- Здесь будет список манги -->
+                <div class="manga-card">
+                    <div class="manga-cover">
+                        <img src="https://via.placeholder.com/150x200" alt="Манга 1">
+                        <div class="manga-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.8</span>
+                        </div>
+                    </div>
+                    <div class="manga-info">
+                        <h3>Название манги 1</h3>
+                        <p class="manga-genres">Боевик, Фэнтези</p>
+                    </div>
+                </div>
+                
+                <div class="manga-card">
+                    <div class="manga-cover">
+                        <img src="https://via.placeholder.com/150x200" alt="Манга 2">
+                        <div class="manga-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.6</span>
+                        </div>
+                    </div>
+                    <div class="manga-info">
+                        <h3>Название манги 2</h3>
+                        <p class="manga-genres">Романтика, Комедия</p>
+                    </div>
+                </div>
+                
+                <div class="manga-card">
+                    <div class="manga-cover">
+                        <img src="https://via.placeholder.com/150x200" alt="Манга 3">
+                        <div class="manga-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.5</span>
+                        </div>
+                    </div>
+                    <div class="manga-info">
+                        <h3>Название манги 3</h3>
+                        <p class="manga-genres">Фэнтези</p>
+                    </div>
+                </div>
+                
+                <div class="manga-card">
+                    <div class="manga-cover">
+                        <img src="https://via.placeholder.com/150x200" alt="Манга 4">
+                        <div class="manga-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.3</span>
+                        </div>
+                    </div>
+                    <div class="manga-info">
+                        <h3>Название манги 4</h3>
+                        <p class="manga-genres">Боевик, Комедия</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <h3>Недавно добавленные</h3>
+            </div>
+            
+            <div class="manga-grid">
+                <div class="manga-card">
+                    <div class="manga-cover">
+                        <img src="https://via.placeholder.com/150x200" alt="Манга 5">
+                        <div class="manga-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.2</span>
+                        </div>
+                    </div>
+                    <div class="manga-info">
+                        <h3>Название манги 5</h3>
+                        <p class="manga-genres">Драма, Приключения</p>
+                    </div>
+                </div>
+                
+                <div class="manga-card">
+                    <div class="manga-cover">
+                        <img src="https://via.placeholder.com/150x200" alt="Манга 6">
+                        <div class="manga-rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.0</span>
+                        </div>
+                    </div>
+                    <div class="manga-info">
+                        <h3>Название манги 6</h3>
+                        <p class="manga-genres">Мистика, Ужасы</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="../index.html">
+                <i class="fas fa-user"></i>
+                <span>Главная</span>
+            </a>
+            <a href="catalog.html" class="active">
+                <i class="fas fa-search"></i>
+                <span>Каталог</span>
+            </a>
+            <a href="../Bookmarks/bookmarks.html">
+                <i class="fas fa-bookmark"></i>
+                <span>Закладки</span>
+            </a>
+            <a href="../Settings/settings.html">
+                <i class="fas fa-cog"></i>
+                <span>Настройки</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="catalog.js"></script>
+</body>
+</html> 

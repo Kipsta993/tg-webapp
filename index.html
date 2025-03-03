@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manga Translations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="content" class="content">
+            <h1>Главная</h1>
+            
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <img id="user-avatar" src="https://via.placeholder.com/100" alt="Аватар пользователя">
+                </div>
+                <div class="user-info">
+                    <h2 id="user-name">Загрузка...</h2>
+                    <div class="user-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-id-card"></i>
+                            <span>Player ID: <span id="player-id">-</span></span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-comment"></i>
+                            <span>Сообщений: <span id="message-count">0</span></span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span>В чате: <span id="time-in-chat">-</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <h3>Последние обновления</h3>
+            </div>
+            
+            <div class="manga-list">
+                <!-- Здесь будет список манги -->
+                <div class="manga-item">
+                    <img src="https://via.placeholder.com/150x200" alt="Манга 1">
+                    <h3>Название манги 1</h3>
+                    <p>Краткое описание манги 1</p>
+                </div>
+                
+                <div class="manga-item">
+                    <img src="https://via.placeholder.com/150x200" alt="Манга 2">
+                    <h3>Название манги 2</h3>
+                    <p>Краткое описание манги 2</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="active">
+                <i class="fas fa-user"></i>
+                <span>Главная</span>
+            </a>
+            <a href="Catalog/catalog.html">
+                <i class="fas fa-search"></i>
+                <span>Каталог</span>
+            </a>
+            <a href="Bookmarks/bookmarks.html">
+                <i class="fas fa-bookmark"></i>
+                <span>Закладки</span>
+            </a>
+            <a href="Settings/settings.html">
+                <i class="fas fa-cog"></i>
+                <span>Настройки</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+</html> 
