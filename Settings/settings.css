@@ -1,0 +1,236 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Oswald', sans-serif;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Стили для темной темы */
+body.dark-theme {
+    background-color: #222;
+    color: #f5f5f5;
+}
+
+body.dark-theme .settings-section {
+    background-color: #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+body.dark-theme .settings-section h2 {
+    color: #f5f5f5;
+    border-bottom-color: #444;
+}
+
+body.dark-theme .setting-item {
+    border-bottom-color: #444;
+}
+
+body.dark-theme .setting-value {
+    color: #aaa;
+}
+
+body.dark-theme .font-size-controls button {
+    background-color: #444;
+    color: #f5f5f5;
+}
+
+body.dark-theme .bottom-nav {
+    background-color: #333;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-theme .bottom-nav a {
+    color: #aaa;
+}
+
+body.dark-theme .bottom-nav a.active {
+    color: #6aa8ff;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 100%;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    padding-bottom: 70px; /* Чтобы контент не перекрывался с нижней навигацией */
+    overflow-y: auto;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 500;
+}
+
+body.dark-theme h1 {
+    color: #f5f5f5;
+}
+
+.settings-section {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.settings-section h2 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    font-weight: 500;
+    transition: color 0.3s, border-bottom-color 0.3s;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f5f5f5;
+    transition: border-bottom-color 0.3s;
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-value {
+    color: #777;
+    font-weight: 300;
+    transition: color 0.3s;
+}
+
+/* Стили для селектора темы */
+.theme-selector {
+    display: flex;
+    gap: 10px;
+}
+
+.theme-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.theme-option i {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.theme-option span {
+    font-size: 0.8rem;
+}
+
+.light-theme {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.dark-theme {
+    background-color: #333;
+    color: #f5f5f5;
+}
+
+.theme-option.active {
+    outline: 2px solid #4a89dc;
+}
+
+/* Стили для контролов размера шрифта */
+.font-size-controls {
+    display: flex;
+    align-items: center;
+}
+
+.font-size-controls button {
+    background-color: #f0f0f0;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.font-size-controls span {
+    margin: 0 10px;
+    min-width: 50px;
+    text-align: center;
+}
+
+/* Стиль для кнопки выхода */
+.logout-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-top: 15px;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Стили для нижней навигации */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #ffffff;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    z-index: 1000;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #777;
+    padding: 5px 0;
+    transition: color 0.3s;
+}
+
+.bottom-nav a.active {
+    color: #4a89dc;
+}
+
+.bottom-nav i {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.bottom-nav span {
+    font-size: 0.8rem;
+} 
